@@ -1,9 +1,9 @@
 import 'package:wigo/services/authentication_service.dart';
 
-class NewAccountController {
+class AccountController {
   final AuthenticationService _authenticationService;
 
-  NewAccountController(this._authenticationService);
+  AccountController(this._authenticationService);
 
   Future<void> createNewAccount(
       {required String email,
@@ -14,6 +14,15 @@ class NewAccountController {
           email: email, password: password, username: username);
     } catch (e) {
       //TODO: handle error for creating new user
+      throw e;
+    }
+  }
+
+  Future<void> signIn({required String email, required String password}) async {
+    try {
+      await _authenticationService.signInWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
       throw e;
     }
   }

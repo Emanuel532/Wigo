@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wigo/controllers/new_acc_controller.dart';
+import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/services/authentication_service.dart';
 
 class CreateAccountScreen extends StatelessWidget {
@@ -57,7 +57,7 @@ class CreateAccountScreen extends StatelessWidget {
                   );
                 } else {
                   // create the account
-                  NewAccountController(AuthenticationService())
+                  AccountController(AuthenticationService())
                       .createNewAccount(
                     username: usernameController.text,
                     email: emailController.text,

@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wigo/controllers/account_controller.dart';
+import 'package:wigo/services/authentication_utils.dart';
+
+import 'package:wigo/services/authentication_service.dart';
 
 class LoginScreen extends StatelessWidget {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,21 +21,43 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: emailController,
               decoration: InputDecoration(
-                labelText: 'Username',
+                labelText: 'Email',
               ),
             ),
             SizedBox(height: 16.0),
             TextField(
+              controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
               ),
               obscureText: true,
             ),
             SizedBox(height: 16.0),
+            //todo: ADD A loading progress indicator
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement sign in logic
+                //sigin login
+                if (!emailController.text.isEmpty &&
+                    !passwordController.text.isEmpty) {
+                  AccountController(AuthenticationService())
+                      .signIn(
+                          email: emailController.text,
+                          password: passwordController.text)
+                      .then((_) {
+                    if (AuthenticationUtils.isUserAuthenticated()) {
+                      GoRouter.of(context).go('/');
+                    }
+                    ;
+                  }).catchError((err) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(err.toString()),
+                      ),
+                    );
+                  });
+                }
               },
               child: Text('Sign In'),
             ),

@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           Center(
             child: Column(
+              //toDO: Add a list of trips here + design
               children: [
                 Text(
                   'Welcome to Wigo Tri Planner  ${AuthenticationUtils.currentUser?.uid} !',
