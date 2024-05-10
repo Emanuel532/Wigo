@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "564462594743",
+    "project_id": "wigo-trip-planner",
+    "storage_bucket": "wigo-trip-planner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564462594743:android:46dba420514719a643bb32",
+        "android_client_info": {
+          "package_name": "com.example.wigo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8whxnu-_1-ZDi_BQ3lkgMNFji7pg7L7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
