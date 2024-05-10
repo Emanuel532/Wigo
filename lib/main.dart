@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wigo/screens/sign_up_screen.dart';
 import 'package:wigo/screens/home_screen.dart';
 import 'package:wigo/screens/log_in_screen.dart';
-import 'package:wigo/widgets/buttons/generic_button.dart';
+import 'package:wigo/services/authentication_utils.dart';
 
 import 'firebase_options.dart';
 
@@ -18,7 +19,12 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return HomeScreen();
+        print(
+            'isUserAuthenticated: ${AuthenticationUtils.isUserAuthenticated()}');
+        return AuthenticationUtils
+                .isUserAuthenticated() //show the home screen if the user is authenticated
+            ? HomeScreen()
+            : LoginScreen();
       },
       routes: <RouteBase>[
         GoRoute(
@@ -26,6 +32,14 @@ final GoRouter _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return LoginScreen();
           },
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'create_account',
+              builder: (BuildContext context, GoRouterState state) {
+                return CreateAccountScreen();
+              },
+            )
+          ],
         ),
       ],
     ),
@@ -59,7 +73,6 @@ class MyApp extends StatelessWidget {
             child: Text('Error initializing Firebase'),
           );
         }
-
         return MaterialApp.router(
           routerConfig: _router,
           title: 'Wigo Trip Planner ',

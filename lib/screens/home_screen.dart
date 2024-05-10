@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
-
+import 'package:wigo/services/authentication_service.dart';
 import 'package:wigo/services/authentication_utils.dart';
+
+import 'package:wigo/widgets/buttons/generic_button.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    if (AuthenticationUtils.isUserAuthenticated()) {
-      print('User is authenticated');
-    } else {
-      print('User is not authenticated');
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Wigo Trip Planner'),
       ),
-      body: Center(
-        child: Text(
-          'Welcome to Wigo Tri Planner!',
-          style: TextStyle(fontSize: 24),
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: Column(
+              children: [
+                Text(
+                  'Welcome to Wigo Tri Planner  ${AuthenticationUtils.currentUser?.uid} !',
+                  style: TextStyle(fontSize: 24),
+                ),
+                GenericButton(
+                  text: 'Sign Out',
+                  onPressed: () {
+                    AuthenticationService.signOut();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

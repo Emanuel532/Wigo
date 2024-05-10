@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -34,7 +35,8 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 8.0),
             TextButton(
               onPressed: () {
-                // TODO: Implement create new account logic
+                // goRoute that takes the user to the new account creation screen
+                GoRouter.of(context).go('/login/create_account');
               },
               child: Text('Create New Account'),
             ),
