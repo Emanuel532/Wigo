@@ -56,4 +56,7 @@ class AuthenticationService {
       throw e;
     }
   }
+
+  //Sign in with Google account
+  Future<UserCredential?> signInWithGoogle() async {}
 }

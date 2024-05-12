@@ -4,6 +4,7 @@ import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
 import 'package:wigo/services/authentication_service.dart';
+import 'package:wigo/widgets/buttons/google_sign_in_button.dart';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -47,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                           password: passwordController.text)
                       .then((_) {
                     if (AuthenticationUtils.isUserAuthenticated()) {
-                      GoRouter.of(context).go('/');
+                      GoRouter.of(context).pushReplacement('/');
                     }
                     ;
                   }).catchError((err) {
@@ -74,7 +75,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 // TODO: Implement continue with Google logic
               },
-              child: Text('Continue with Google'),
+              child: GoogleSignInButton(),
             ),
             SizedBox(height: 8.0),
             TextButton(

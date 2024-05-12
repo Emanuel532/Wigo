@@ -12,7 +12,20 @@
           "package_name": "com.example.wigo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "564462594743-7gjr1pe3khgp83h8vmahd0itavp3r935.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wigo",
+            "certificate_hash": "c017dfc36bce1e63ce7d187430eca1c7a7ea6b82"
+          }
+        },
+        {
+          "client_id": "564462594743-0ri0o7ipgoedhiqmq9b7frmt4ranmc72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB8whxnu-_1-ZDi_BQ3lkgMNFji7pg7L7s"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564462594743-0ri0o7ipgoedhiqmq9b7frmt4ranmc72.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564462594743-2ou75eqe0d47b1h2evoslqq6p0uqe7k9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.wigo"
+              }
+            }
+          ]
         }
       }
     }
