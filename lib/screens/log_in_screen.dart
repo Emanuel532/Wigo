@@ -75,7 +75,9 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 // TODO: Implement continue with Google logic
               },
-              child: GoogleSignInButton(),
+              child: GoogleSignInButton(
+                contextt: context,
+              ),
             ),
             SizedBox(height: 8.0),
             TextButton(
