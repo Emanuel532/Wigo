@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:wigo/controllers/account_controller.dart';
+import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_service.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
@@ -44,6 +46,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   .then((value) {
             //print(AuthenticationUtils.isUserAuthenticated());
             if (AuthenticationUtils.isUserAuthenticated()) {
+              Provider.of<TripProvider>(context, listen: false)
+                  .loadTripsFromDatabase();
               GoRouter.of(this.widget.contextt).pushReplacement('/');
             }
           });

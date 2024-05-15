@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:wigo/controllers/account_controller.dart';
+import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
 import 'package:wigo/services/authentication_service.dart';
@@ -99,6 +101,8 @@ class LoginScreen extends StatelessWidget {
                         )
                             .then((_) {
                           if (AuthenticationUtils.isUserAuthenticated()) {
+                            Provider.of<TripProvider>(context, listen: false)
+                                .loadTripsFromDatabase();
                             GoRouter.of(context).pushReplacement('/');
                           }
                         }).catchError((err) {

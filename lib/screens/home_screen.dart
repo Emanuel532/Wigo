@@ -66,12 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, tripProvider, child) {
                       return ListView.builder(
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text('Trip no: $index'),
-                            subtitle:
-                                Text('City: ${tripProvider.trips[index].city}'),
-                            trailing: Text(
-                                'Budget: ${tripProvider.trips[index].budget}'),
+                          return InkWell(
+                            onTap: () {},
+                            child: ListTile(
+                              title: Text('Trip no: $index'),
+                              subtitle: Text(
+                                  'City: ${tripProvider.trips[index].city}'),
+                              trailing: Text(
+                                  'Budget: ${tripProvider.trips[index].budget}'),
+                            ),
                           );
                         },
                         itemCount: tripProvider.tripCount,
