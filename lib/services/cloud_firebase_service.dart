@@ -8,6 +8,14 @@ class CloudFirebaseService {
     return _firestore.collection(collection).doc(documentId).get();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getTripsByOwnerAndFriends(
+      String ownerUuid) {
+    return _firestore
+        .collection('trips')
+        .where('owner_uuid', isEqualTo: ownerUuid)
+        .get();
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getAllDocuments(
       String collection) {
     return _firestore.collection(collection).get();

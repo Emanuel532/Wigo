@@ -31,4 +31,17 @@ class Trip {
       'photo': photo,
     };
   }
+
+  factory Trip.fromJSON(Map<String, dynamic> json) {
+    return Trip(
+      startDate: DateTime.parse(json['startDate']),
+      endDate: DateTime.parse(json['endDate']),
+      owner_uuid: json['owner_uuid'],
+      city: json['city'],
+      budget: json['budget'].toDouble(),
+      members: json['members'],
+      friends: List<String>.from(json['friends']),
+      photo: json['photo'],
+    );
+  }
 }

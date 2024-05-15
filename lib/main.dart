@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/screens/add_trip.dart';
 import 'package:wigo/screens/sign_up_screen.dart';
 import 'package:wigo/screens/home_screen.dart';
@@ -11,7 +13,9 @@ import 'package:wigo/services/authentication_utils.dart';
 import 'firebase_options.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (ctx) => TripProvider())],
+      child: MyApp()));
 }
 
 /// The route configuration for our app
