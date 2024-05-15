@@ -39,56 +39,62 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Wigo Trip Planner'),
       ),
-      body: Column(
-        children: [
-          Center(
-            child: Column(
-              //toDO: Add a list of trips here + design
-              children: [
-                Text(
-                  'Welcome to Wigo Trip Planner  ${AuthenticationUtils.currentUser?.uid} !',
-                  style: TextStyle(fontSize: 24),
-                ),
-                GenericButton(
-                  text: 'Sign Out',
-                  onPressed: () {
-                    AuthenticationService.signOut();
-                    // context.pop();
-                  },
-                ),
-                Container(
-                  height: (screenSize.height -
-                          AppBar().preferredSize.height -
-                          /*keyboardheight -*/
-                          MediaQuery.of(context).viewPadding.top) *
-                      0.78,
-                  child: Consumer<TripProvider>(
-                    builder: (context, tripProvider, child) {
-                      return ListView.builder(
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              GoRouter.of(context)
-                                  .go('/view-trip/${index.toString()}');
-                            },
-                            child: ListTile(
-                              title: Text('Trip no: $index'),
-                              subtitle: Text(
-                                  'City: ${tripProvider.trips[index].city}'),
-                              trailing: Text(
-                                  'Budget: ${tripProvider.trips[index].budget}'),
-                            ),
-                          );
-                        },
-                        itemCount: tripProvider.tripCount,
-                      );
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Provider.of<TripProvider>(context, listen: false)
+              .loadTripsFromDatabase();
+        },
+        child: Column(
+          children: [
+            Center(
+              child: Column(
+                //toDO: Add a list of trips here + design
+                children: [
+                  Text(
+                    'Welcome to Wigo Trip Planner  ${AuthenticationUtils.currentUser?.uid} !',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                  GenericButton(
+                    text: 'Sign Out',
+                    onPressed: () {
+                      AuthenticationService.signOut();
+                      // context.pop();
                     },
                   ),
-                )
-              ],
+                  Container(
+                    height: (screenSize.height -
+                            AppBar().preferredSize.height -
+                            /*keyboardheight -*/
+                            MediaQuery.of(context).viewPadding.top) *
+                        0.78,
+                    child: Consumer<TripProvider>(
+                      builder: (context, tripProvider, child) {
+                        return ListView.builder(
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                GoRouter.of(context)
+                                    .go('/view-trip/${index.toString()}');
+                              },
+                              child: ListTile(
+                                title: Text('Trip no: $index'),
+                                subtitle: Text(
+                                    'City: ${tripProvider.trips[index].city}'),
+                                trailing: Text(
+                                    'Budget: ${tripProvider.trips[index].budget}'),
+                              ),
+                            );
+                          },
+                          itemCount: tripProvider.tripCount,
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
