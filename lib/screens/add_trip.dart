@@ -35,6 +35,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
     budget: 0,
     members: 1,
     friends: [],
+    itinerary: [],
     photo: "",
   );
 

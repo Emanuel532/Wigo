@@ -6,6 +6,7 @@ class Trip {
   double budget;
   int members;
   List<String> friends;
+  List<String> itinerary;
   String photo;
 
   Trip({
@@ -16,6 +17,7 @@ class Trip {
     required this.budget,
     required this.members,
     required this.friends,
+    required this.itinerary,
     required this.photo,
   });
 
@@ -28,6 +30,7 @@ class Trip {
       'budget': budget,
       'members': members,
       'friends': friends,
+      'itinerary': itinerary,
       'photo': photo,
     };
   }
@@ -41,6 +44,7 @@ class Trip {
       budget: json['budget'].toDouble(),
       members: json['members'],
       friends: List<String>.from(json['friends']),
+      itinerary: List<String>.from(json['itinerary']),
       photo: json['photo'],
     );
   }
