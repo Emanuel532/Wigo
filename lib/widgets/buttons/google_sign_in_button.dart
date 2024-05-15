@@ -23,14 +23,17 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 85, 157, 199), // background color
-                  foregroundColor: Colors.white, // text color
-                  elevation: 3, // elevation
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30), // button padding
-                  shape: RoundedRectangleBorder( // button border
-                    borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
+          backgroundColor:
+              Color.fromARGB(255, 85, 157, 199), // background color
+          foregroundColor: Colors.white, // text color
+          elevation: 3, // elevation
+          padding: EdgeInsets.symmetric(
+              vertical: 15, horizontal: 30), // button padding
+          shape: RoundedRectangleBorder(
+            // button border
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
         onPressed: () async {
           setState(() {
             _isSigningIn = true;
@@ -41,7 +44,6 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   .then((value) {
             //print(AuthenticationUtils.isUserAuthenticated());
             if (AuthenticationUtils.isUserAuthenticated()) {
-              print('se executa eventual');
               GoRouter.of(this.widget.contextt).pushReplacement('/');
             }
           });
@@ -64,18 +66,13 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
     );*/
           }
         },
-
-                child: Text('Continue with Google',
-              style: GoogleFonts.raleway(
-                fontWeight:FontWeight.w400,
-                fontSize: 26,
-                color: Color.fromARGB(255, 255, 255, 255)
-              ),
-              
-            
-          
-        
-      ),
+        child: Text(
+          'Continue with Google',
+          style: GoogleFonts.raleway(
+              fontWeight: FontWeight.w400,
+              fontSize: 26,
+              color: Color.fromARGB(255, 255, 255, 255)),
+        ),
       ),
     );
   }

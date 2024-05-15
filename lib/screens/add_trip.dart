@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
+import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:wigo/widgets/itinerary.dart';
@@ -296,8 +298,8 @@ class _AddTripScreenState extends State<AddTripScreen> {
                 ),
                 onPressed: () {
                   //TODO: Implement trip creation logic here
-                  AddTripController addTripController = AddTripController();
-                  addTripController.addNewTrip(_trip);
+                  Provider.of<TripProvider>(context, listen: false)
+                      .addTrip(_trip);
                   context.pop();
                 },
                 child: Text(
