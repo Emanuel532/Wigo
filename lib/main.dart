@@ -8,6 +8,7 @@ import 'package:wigo/screens/add_trip.dart';
 import 'package:wigo/screens/sign_up_screen.dart';
 import 'package:wigo/screens/home_screen.dart';
 import 'package:wigo/screens/log_in_screen.dart';
+import 'package:wigo/screens/view_trip.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
 import 'firebase_options.dart';
@@ -50,6 +51,11 @@ final GoRouter _router = GoRouter(
             path: 'add-trip',
             builder: (BuildContext context, GoRouterState state) {
               return AddTripScreen();
+            }),
+        GoRoute(
+            path: 'view-trip/:tripId',
+            builder: (BuildContext context, GoRouterState state) {
+              return ViewTripScreen();
             }),
       ],
     ),

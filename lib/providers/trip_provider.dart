@@ -16,6 +16,10 @@ class TripProvider with ChangeNotifier {
     return trips;
   }
 
+  Trip getTripById(int tripId) {
+    return trips[tripId];
+  }
+
   void addTrip(Trip _trip) {
     TripController addTripController = TripController();
     addTripController.addNewTripToDatabase(_trip);

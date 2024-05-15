@@ -67,7 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ListView.builder(
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              GoRouter.of(context)
+                                  .go('/view-trip/${index.toString()}');
+                            },
                             child: ListTile(
                               title: Text('Trip no: $index'),
                               subtitle: Text(
