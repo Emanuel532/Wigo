@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/services/authentication_utils.dart';
+import 'package:intl/intl.dart';
+
+final Color blue = Color.fromARGB(255, 85, 157, 199);
+
+String formatDateTime(DateTime dateTime) {
+  // Define the format pattern
+  final DateFormat formatter = DateFormat('dd MMM yyyy');
+
+  // Format the DateTime object
+  return formatter.format(dateTime).toUpperCase();
+}
 
 class AddTripScreen extends StatefulWidget {
   @override
@@ -29,7 +42,16 @@ class _AddTripScreenState extends State<AddTripScreen> {
         : 'empty';
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Trip'),
+        title: Text(
+          'Create your trip',
+          style: GoogleFonts.raleway(
+            fontWeight: FontWeight.w400,
+            fontSize: 30,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
+        backgroundColor: blue,
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -37,129 +59,252 @@ class _AddTripScreenState extends State<AddTripScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Start Date'),
-              TextButton(
-                onPressed: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2100),
-                  ).then((date) {
-                    if (date != null) {
-                      setState(() {
-                        _trip.startDate = date;
-                      });
-                    }
-                  });
-                },
-                child: Text(_trip.startDate != null
-                    ? _trip.startDate.toString()
-                    : 'Select Start Date'),
+              SizedBox(
+                height: 20,
               ),
-              SizedBox(height: 16.0),
-              Text('End Date'),
-              TextButton(
-                onPressed: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2100),
-                  ).then((date) {
-                    if (date != null) {
-                      setState(() {
-                        _trip.endDate = date;
-                      });
-                    }
-                  });
-                },
-                child: Text(_trip.endDate != null
-                    ? _trip.endDate.toString()
-                    : 'Select End Date'),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 85, 157, 199).withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      offset: Offset(0, 1), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _trip.city = value;
+                    });
+                  },
+                  style: GoogleFonts.raleway(
+                    textStyle: TextStyle(
+                      color: Color.fromARGB(255, 85, 157, 199),
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Location',
+                    hintStyle: GoogleFonts.raleway(
+                      textStyle: TextStyle(
+                          color: Color.fromARGB(255, 85, 157, 199),
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    icon: Icon(Icons.location_on,
+                        color: Color.fromARGB(255, 85, 157, 199), size: 30),
+                  ),
+                ),
               ),
-              SizedBox(height: 16.0),
-              TextField(
-                decoration: InputDecoration(labelText: 'City'),
-                onChanged: (value) {
-                  setState(() {
-                    _trip.city = value;
-                  });
-                },
+              SizedBox(
+                height: 64,
               ),
-              SizedBox(height: 16.0),
-              TextField(
-                decoration: InputDecoration(labelText: 'Budget'),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    _trip.budget = double.parse(value);
-                  });
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextField(
-                decoration: InputDecoration(labelText: 'Members'),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    _trip.members = int.parse(value);
-                  });
-                },
-              ),
-              SizedBox(height: 16.0),
-              Text('Friends'),
-              TextButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Add Friend'),
-                        content: TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              _trip.friends.add(value);
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'First Day',
+                          style: GoogleFonts.raleway(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 26,
+                            color: blue,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2100),
+                            ).then((date) {
+                              if (date != null) {
+                                setState(() {
+                                  _trip.startDate = date;
+                                });
+                              }
                             });
                           },
+                          child: Row(
+                            children: [
+                              Text(
+                                _trip.startDate != null
+                                    ? formatDateTime(_trip.startDate)
+                                    : 'Select Start Date',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: blue,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.edit,
+                                size: 20,
+                                color: blue,
+                              ),
+                            ],
+                          ),
                         ),
-                        actions: [
-                          TextButton(
-                            child: Text('Cancel'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
+                      ],
+                    ),
+                    VerticalDivider(
+                      color: blue,
+                      thickness: 1,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          'Last Day',
+                          style: GoogleFonts.raleway(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 26,
+                            color: blue,
                           ),
-                          TextButton(
-                            child: Text('Add'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2100),
+                            ).then((date) {
+                              if (date != null) {
+                                setState(() {
+                                  _trip.endDate = date;
+                                });
+                              }
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                _trip.startDate != null
+                                    ? formatDateTime(_trip.endDate)
+                                    : 'Select Start Date',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: blue,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.edit,
+                                size: 20,
+                                color: blue,
+                              ),
+                            ],
                           ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Text('Add Friend'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 16.0),
-              Text('Photo'),
-              TextButton(
-                onPressed: () {
-                  //TODO: Implement photo selection logic here
-                },
-                child: Text('Add Photo'),
+              SizedBox(height: 64.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Budget',
+                        labelStyle: GoogleFonts.raleway(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 85, 157, 199),
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(color: blue, width: 2),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 32.0, color: blue),
+                      onChanged: (value) {
+                        setState(() {
+                          _trip.budget = double.tryParse(value) ?? 0.0;
+                        });
+                      },
+                    ),
+                  ),
+
+                  SizedBox(width: 10), // Add some space between the text fields
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Members',
+                        labelStyle: GoogleFonts.raleway(
+                          textStyle: TextStyle(
+                            color: Color.fromARGB(255, 85, 157, 199),
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(color: blue, width: 2),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 32.0, color: blue),
+                      onChanged: (value) {
+                        setState(() {
+                          _trip.members = int.tryParse(value) ?? 0;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 64.0),
               TextButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 85, 157, 199),
+                  foregroundColor: Colors.white,
+                  elevation: 3,
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
                 onPressed: () {
                   //TODO: Implement trip creation logic here
                   AddTripController addTripController = AddTripController();
                   addTripController.addNewTrip(_trip);
                   context.pop();
                 },
-                child: Text('Create Trip'),
+                child: Text(
+                  'Create',
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 32,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
               ),
             ],
           ),
