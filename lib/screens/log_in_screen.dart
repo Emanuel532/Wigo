@@ -4,6 +4,7 @@ import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
 import 'package:wigo/services/authentication_service.dart';
+import 'package:wigo/widgets/buttons/input_bubble.dart';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -20,20 +21,9 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
+            InputBubble(hintText: 'Email'),
             SizedBox(height: 16.0),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true,
-            ),
+            InputBubble(hintText: 'Password'),
             SizedBox(height: 16.0),
             //todo: ADD A loading progress indicator
             ElevatedButton(
