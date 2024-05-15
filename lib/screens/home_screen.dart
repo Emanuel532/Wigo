@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             AppBar().preferredSize.height -
                             /*keyboardheight -*/
                             MediaQuery.of(context).viewPadding.top) *
-                        0.5,
+                        0.46,
                     child: Consumer<TripProvider>(
                       builder: (context, tripProvider, child) {
                         return ListView.builder(
