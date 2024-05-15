@@ -9,6 +9,7 @@ import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_utils.dart';
 import 'package:intl/intl.dart';
+import 'package:wigo/widgets/itinerary.dart';
 
 final Color blue = Color.fromARGB(255, 85, 157, 199);
 
@@ -282,6 +283,8 @@ class _AddTripScreenState extends State<AddTripScreen> {
                   ),
                 ],
               ),
+              SizedBox(height: 64.0),
+              ItineraryBox(days: 3),
               SizedBox(height: 64.0),
               TextButton(
                 style: ElevatedButton.styleFrom(
