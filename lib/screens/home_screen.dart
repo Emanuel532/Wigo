@@ -19,13 +19,14 @@ class HomeScreen extends StatelessWidget {
               //toDO: Add a list of trips here + design
               children: [
                 Text(
-                  'Welcome to Wigo Tri Planner  ${AuthenticationUtils.currentUser?.uid} !',
+                  'Welcome to Wigo Trip Planner  ${AuthenticationUtils.currentUser?.uid} !',
                   style: TextStyle(fontSize: 24),
                 ),
                 GenericButton(
                   text: 'Sign Out',
                   onPressed: () {
                     AuthenticationService.signOut();
+                    // context.pop();
                   },
                 ),
               ],
