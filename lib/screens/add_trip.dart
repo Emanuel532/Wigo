@@ -49,8 +49,8 @@ class _AddTripScreenState extends State<AddTripScreen> {
         title: Text(
           'Create your trip',
           style: GoogleFonts.raleway(
-            fontWeight: FontWeight.w400,
-            fontSize: 30,
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),

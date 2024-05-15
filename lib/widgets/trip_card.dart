@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 String formatDateTime(DateTime dateTime) {
@@ -28,6 +29,7 @@ class TripCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Color.fromARGB(255, 85, 157, 199),
       elevation: 3,
       margin: EdgeInsets.all(10),
       child: Padding(
@@ -40,39 +42,32 @@ class TripCard extends StatelessWidget {
               children: [
                 Text(
                   location,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
                 Text(
                   '$numberOfMembers/$maxMembers',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                     fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            Divider(
+              thickness: 0.5,
+              color: Colors.white,
+            ),
+            SizedBox(height: 5),
             Text(
               '${formatDateTime(startDate)} - ${formatDateTime(endDate)}',
               style: TextStyle(
                 fontSize: 16,
-              ),
-            ),
-            SizedBox(height: 10),
-            InkWell(
-              onTap: () {
-                // Implement your show more functionality here
-              },
-              child: Text(
-                '[Show more]',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 16,
-                  decoration: TextDecoration.underline,
-                ),
+                color: Colors.white,
               ),
             ),
           ],
