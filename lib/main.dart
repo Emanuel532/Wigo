@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wigo/screens/add_trip.dart';
 import 'package:wigo/screens/sign_up_screen.dart';
 import 'package:wigo/screens/home_screen.dart';
 import 'package:wigo/screens/log_in_screen.dart';
@@ -41,6 +42,11 @@ final GoRouter _router = GoRouter(
             )
           ],
         ),
+        GoRoute(
+            path: 'add-trip',
+            builder: (BuildContext context, GoRouterState state) {
+              return AddTripScreen();
+            }),
       ],
     ),
   ],
