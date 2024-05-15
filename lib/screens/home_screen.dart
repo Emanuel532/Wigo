@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onPressed: () {
                 AuthenticationService.signOut();
-                // context.pop();
+                GoRouter.of(context).pushReplacement('/login');
               },
             ),
             Divider(
