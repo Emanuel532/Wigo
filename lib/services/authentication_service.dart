@@ -57,6 +57,15 @@ class AuthenticationService {
     }
   }
 
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      print('Password reset email sent successfully');
+    } catch (e) {
+      print('Error sending password reset email: $e');
+    }
+  }
+
   //Sign in with Google account
   Future<UserCredential?> signInWithGoogle() async {}
 }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/screens/add_trip.dart';
+import 'package:wigo/screens/forgot_password.dart';
 import 'package:wigo/screens/sign_up_screen.dart';
 import 'package:wigo/screens/home_screen.dart';
 import 'package:wigo/screens/log_in_screen.dart';
@@ -43,6 +44,12 @@ final GoRouter _router = GoRouter(
               path: 'create_account',
               builder: (BuildContext context, GoRouterState state) {
                 return CreateAccountScreen();
+              },
+            ),
+            GoRoute(
+              path: 'forgot_password',
+              builder: (BuildContext context, GoRouterState state) {
+                return ForgotPasswordScreen();
               },
             )
           ],

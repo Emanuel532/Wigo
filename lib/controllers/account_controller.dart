@@ -67,4 +67,12 @@ class AccountController {
 
     return user;
   }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      await _authenticationService.resetPassword(email);
+    } catch (e) {
+      throw e;
+    }
+  }
 }
