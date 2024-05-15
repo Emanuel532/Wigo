@@ -50,104 +50,113 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         toolbarHeight: 90,
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-            child: Text(
-              'Welcome!',
-              style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w800, fontSize: 50, color: blue),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Text(
-              'Connected with: ${AuthenticationUtils.currentUser?.email}',
-              style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w500, fontSize: 32, color: blue),
-              textAlign: TextAlign.right,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 85, 157, 199),
-              foregroundColor: Colors.white,
-              elevation: 3,
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Provider.of<TripProvider>(context, listen: false)
+              .loadTripsFromDatabase();
+        },
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Text(
+                'Welcome!',
+                style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w800, fontSize: 50, color: blue),
+                textAlign: TextAlign.left,
               ),
             ),
-            child: Text(
-              'Sign Out',
-              style: GoogleFonts.raleway(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 26,
-                  color: Color.fromARGB(255, 255, 255, 255)),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Text(
+                'Connected with: ${AuthenticationUtils.currentUser?.email}',
+                style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w500, fontSize: 32, color: blue),
+                textAlign: TextAlign.right,
+              ),
             ),
-            onPressed: () {
-              AuthenticationService.signOut();
-              // context.pop();
-            },
-          ),
-          Divider(
-            color: blue,
-            thickness: 2,
-          ),
-          Center(
-            child: Column(
-              //toDO: Add a list of trips here + design
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                  child: Text(
-                    'Your trips',
-                    style: GoogleFonts.raleway(
-                        fontWeight: FontWeight.w800, fontSize: 42, color: blue),
-                    textAlign: TextAlign.left,
-                  ),
+            SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 85, 157, 199),
+                foregroundColor: Colors.white,
+                elevation: 3,
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
                 ),
-                Container(
-                  height: (screenSize.height -
-                          AppBar().preferredSize.height -
-                          /*keyboardheight -*/
-                          MediaQuery.of(context).viewPadding.top) *
-                      0.5,
-                  child: Consumer<TripProvider>(
-                    builder: (context, tripProvider, child) {
-                      return ListView.builder(
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                GoRouter.of(context)
-                                    .go('/view-trip/${index.toString()}');
-                              },
-                              child: TripCard(
-                                endDate: tripProvider.trips[index].endDate,
-                                startDate: tripProvider.trips[index].startDate,
-                                location: tripProvider.trips[index].city,
-                                maxMembers: tripProvider.trips[index].members,
-                                numberOfMembers:
-                                    tripProvider.trips[index].friends.length,
-                              ));
-                        },
-                        itemCount: tripProvider.tripCount,
-                      );
-                    },
-                  ),
-                )
-              ],
+              ),
+              child: Text(
+                'Sign Out',
+                style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 26,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              onPressed: () {
+                AuthenticationService.signOut();
+                // context.pop();
+              },
             ),
-          ),
-        ],
+            Divider(
+              color: blue,
+              thickness: 2,
+            ),
+            Center(
+              child: Column(
+                //toDO: Add a list of trips here + design
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    child: Text(
+                      'Your trips',
+                      style: GoogleFonts.raleway(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 42,
+                          color: blue),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Container(
+                    height: (screenSize.height -
+                            AppBar().preferredSize.height -
+                            /*keyboardheight -*/
+                            MediaQuery.of(context).viewPadding.top) *
+                        0.5,
+                    child: Consumer<TripProvider>(
+                      builder: (context, tripProvider, child) {
+                        return ListView.builder(
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () {
+                                  GoRouter.of(context)
+                                      .go('/view-trip/${index.toString()}');
+                                },
+                                child: TripCard(
+                                  endDate: tripProvider.trips[index].endDate,
+                                  startDate:
+                                      tripProvider.trips[index].startDate,
+                                  location: tripProvider.trips[index].city,
+                                  maxMembers: tripProvider.trips[index].members,
+                                  numberOfMembers:
+                                      tripProvider.trips[index].friends.length,
+                                ));
+                          },
+                          itemCount: tripProvider.tripCount,
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
