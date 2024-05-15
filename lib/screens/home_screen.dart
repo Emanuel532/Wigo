@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //_isFirstBuild = true;
+    // _isFirstBuild = true;
     if (_isFirstBuild) {
       Provider.of<TripProvider>(context, listen: false).loadTripsFromDatabase();
       print('Loading trips from database');
