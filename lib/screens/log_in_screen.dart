@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
 import 'package:wigo/services/authentication_service.dart';
-<<<<<<< HEAD
-import 'package:wigo/widgets/buttons/input_bubble.dart';
-=======
+import 'package:wigo/widgets/email_input.dart';
 import 'package:wigo/widgets/buttons/google_sign_in_button.dart';
->>>>>>> 47610034f34d2ea4dfcce4e9d955db01a8bc7756
+import 'package:wigo/widgets/password_input.dart';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -18,43 +18,125 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('WIGO',
+              style: GoogleFonts.raleway(
+                fontWeight:FontWeight.w800,
+                fontSize: 100,
+                color: Color.fromARGB(255, 85, 157, 199)
+              ),
+        ),
+        toolbarHeight: 90,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InputBubble(hintText: 'Email'),
-            SizedBox(height: 16.0),
-            InputBubble(hintText: 'Password'),
-            SizedBox(height: 16.0),
-            //todo: ADD A loading progress indicator
-            ElevatedButton(
-              onPressed: () {
-                //sigin login
-                if (!emailController.text.isEmpty &&
-                    !passwordController.text.isEmpty) {
-                  AccountController(AuthenticationService())
-                      .signIn(
-                          email: emailController.text,
-                          password: passwordController.text)
-                      .then((_) {
-                    if (AuthenticationUtils.isUserAuthenticated()) {
-                      GoRouter.of(context).pushReplacement('/');
-                    }
-                    ;
-                  }).catchError((err) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(err.toString()),
-                      ),
-                    );
-                  });
-                }
-              },
-              child: Text('Sign In'),
+            Row(
+              children: [
+                Text('Sign in',
+                  style: GoogleFonts.raleway(
+                    fontWeight:FontWeight.w600,
+                    fontSize: 64,
+                    color: Color.fromARGB(255, 85, 157, 199),
+                  ),
+                ),
+              ],
             ),
+            SizedBox(height: 2.0),
+            EmailInput(emailController: emailController,),
+            SizedBox(height: 16.0),
+            PasswordInput(passwordController: passwordController),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                
+                TextButton(
+                  onPressed: (){},
+                  style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
+                      // Disables the hover animation
+                      if (states.contains(MaterialState.hovered)) {
+                        return Colors.transparent;
+                      }
+                      return null; // Use the default color
+                    },
+                  ),
+                ),
+                  child: Text('Forgot your password?',
+                                style: GoogleFonts.raleway(
+                  fontWeight:FontWeight.w400,
+                  fontSize: 16,
+                  color: Color.fromARGB(255, 85, 157, 199)
+                                ),
+                          ),
+                ),
+              ],
+            ),
+            SizedBox(height: 32.0),
+            //todo: ADD A loading progress indicator
+            Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              // Sign in or login
+              if (!emailController.text.isEmpty &&
+                  !passwordController.text.isEmpty) {
+                AccountController(AuthenticationService())
+                    .signIn(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    )
+                    .then((_) {
+                  if (AuthenticationUtils.isUserAuthenticated()) {
+                    GoRouter.of(context).pushReplacement('/');
+                  }
+                }).catchError((err) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(err.toString()),
+                    ),
+                  );
+                });
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 85, 157, 199),
+              foregroundColor: Colors.white,
+              elevation: 3,
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+            child: Text(
+              'Log in',
+              style: GoogleFonts.raleway(
+                fontWeight: FontWeight.w400,
+                fontSize: 32,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'or',
+            style: GoogleFonts.raleway(
+              fontWeight: FontWeight.w400,
+              fontSize: 32,
+              color: Color.fromARGB(255, 85, 157, 199),
+            ),
+          ),
+          SizedBox(height: 10),
+          GoogleSignInButton(
+            contextt: context,
+          ),
+        ],
+      ),
+
             SizedBox(height: 8.0),
             TextButton(
               onPressed: () {
@@ -64,21 +146,8 @@ class LoginScreen extends StatelessWidget {
               child: Text('Create New Account'),
             ),
             SizedBox(height: 8.0),
-            TextButton(
-              onPressed: () {
-                // TODO: Implement continue with Google logic
-              },
-              child: GoogleSignInButton(
-                contextt: context,
-              ),
-            ),
-            SizedBox(height: 8.0),
-            TextButton(
-              onPressed: () {
-                // TODO: Implement forgot password logic
-              },
-              child: Text('Forgot your password?'),
-            ),
+
+          
           ],
         ),
       ),

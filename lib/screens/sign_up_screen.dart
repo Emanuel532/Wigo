@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/services/authentication_service.dart';
+
+import '../widgets/email_input.dart';
+import '../widgets/password_input.dart';
+import '../widgets/username_input.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   TextEditingController usernameController = TextEditingController();
@@ -11,36 +16,39 @@ class CreateAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Account'),
+        title: Text('WIGO',
+              style: GoogleFonts.raleway(
+                fontWeight:FontWeight.w800,
+                fontSize: 100,
+                color: Color.fromARGB(255, 85, 157, 199)
+              ),
+        ),
+        toolbarHeight: 90,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: usernameController,
-              decoration: InputDecoration(
-                labelText: 'Username',
-              ),
+            Row(
+              children: [
+                Text('Sign up',
+                  style: GoogleFonts.raleway(
+                    fontWeight:FontWeight.w600,
+                    fontSize: 64,
+                    color: Color.fromARGB(255, 85, 157, 199),
+                  ),
+                ),
+              ],
             ),
+            SizedBox(height: 2.0),
+            UsernameInput(usernameController: usernameController),
             SizedBox(height: 16.0),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
+            EmailInput(emailController: emailController,),
             SizedBox(height: 16.0),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 16.0),
+            PasswordInput(passwordController: passwordController,),
+            SizedBox(height: 32.0),
+            
             ElevatedButton(
               onPressed: () {
                 // check if all input fields are filled
@@ -75,7 +83,21 @@ class CreateAccountScreen extends StatelessWidget {
                   });
                 }
               },
-              child: Text('Sign Up'),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 85, 157, 199), // background color
+                  foregroundColor: Colors.white, // text color
+                  elevation: 3, // elevation
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30), // button padding
+                  shape: RoundedRectangleBorder( // button border
+                    borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: Text('Create an account',
+                  style: GoogleFonts.raleway(
+                        fontWeight:FontWeight.w400,
+                        fontSize: 32,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),),
             ),
           ],
         ),

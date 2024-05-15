@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/services/authentication_service.dart';
 import 'package:wigo/services/authentication_utils.dart';
@@ -20,15 +21,16 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: OutlinedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.white),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ),
-        ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 85, 157, 199), // background color
+                  foregroundColor: Colors.white, // text color
+                  elevation: 3, // elevation
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30), // button padding
+                  shape: RoundedRectangleBorder( // button border
+                    borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
         onPressed: () async {
           setState(() {
             _isSigningIn = true;
@@ -62,31 +64,18 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
     );*/
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              /*
-                    Image(
-                      image: AssetImage("assets/google_logo.png"),
-                      height: 35.0,
-                    ),*/
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  'Sign in with Google',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+
+                child: Text('Continue with Google',
+              style: GoogleFonts.raleway(
+                fontWeight:FontWeight.w400,
+                fontSize: 26,
+                color: Color.fromARGB(255, 255, 255, 255)
+              ),
+              
+            
+          
+        
+      ),
       ),
     );
   }
