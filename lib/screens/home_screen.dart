@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wigo/services/authentication_service.dart';
 import 'package:wigo/services/authentication_utils.dart';
 
@@ -31,6 +32,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          GoRouter.of(context).go('/add-trip');
+        },
       ),
     );
   }
