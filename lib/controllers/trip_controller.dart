@@ -38,12 +38,12 @@ class TripController {
     });
   }
 
-  Future getTripsFromDatabaseForConnectedUser() {
+  Future getTripsFromDatabaseForConnectedUser() async {
     String uuid = FirebaseAuth.instance.currentUser?.uid != null
         ? FirebaseAuth.instance.currentUser!.uid
         : '';
     // Load the trips from the database
-    return _firebaseService.getTripsByOwnerAndFriends(uuid).then((tripsData) {
+    /*return _firebaseService.getTripsByOwnerAndFriends(uuid).then((tripsData) {
       List<Trip> trips = [];
       tripsData.docs.forEach((tripData) {
         Trip trip = Trip.fromJSON(tripData.data());
@@ -51,6 +51,26 @@ class TripController {
       });
       return trips;
     });
+    */
+    List<Trip> trips = [];
+    await _firebaseService.getTripsByOwnerAndFriends(uuid).then((tripsData) {
+      List<Trip> trips = [];
+      tripsData.docs.forEach((tripData) {
+        Trip trip = Trip.fromJSON(tripData.data());
+        trips.add(trip);
+      });
+    });
+
+    await _firebaseService
+        .getTripsByMembership(FirebaseAuth.instance.currentUser?.email ?? '')
+        .then((tripsData) {
+      tripsData.docs.forEach((tripData) {
+        Trip trip = Trip.fromJSON(tripData.data());
+        trips.add(trip);
+      });
+    });
+
+    return trips;
   }
 /*
   Future joinTrip(int inviteCode) async {
