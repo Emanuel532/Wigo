@@ -402,7 +402,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                   ),
                 ),
                 child: Text(
-                  'Create itinerary with AI',
+                  'Plan trip with AI',
                   style: GoogleFonts.raleway(
                     fontWeight: FontWeight.w600,
                     fontSize: 32,
