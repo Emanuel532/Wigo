@@ -171,9 +171,43 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
         ),
         onPressed: () {
-          GoRouter.of(context).go('/add-trip');
+          showAlertDialog(context);
+
+          //GoRouter.of(context).go('/add-trip');
         },
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Choose an option'),
+        content: SingleChildScrollView(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              GestureDetector(
+                child: Text('Add a new trip'),
+                onTap: () {
+                  GoRouter.of(context).go('/add-trip');
+                  Navigator.of(context).pop();
+                },
+              ),
+              GestureDetector(
+                child: Text('Join an existing trip'),
+                onTap: () {
+                  // Add logic to handle joining an existing trip
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

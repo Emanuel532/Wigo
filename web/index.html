@@ -19,7 +19,7 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
-
+  <meta name="google-signin-client_id" content="564462594743-0ri0o7ipgoedhiqmq9b7frmt4ranmc72.apps.googleusercontent.com">
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -55,5 +55,25 @@
       });
     });
   </script>
+<!--INITIALIZE FIREBASE AUTH -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAYmWkX3JxWzKUX0uoImwWBndZDhK5cHW0",
+    authDomain: "wigo-trip-planner.firebaseapp.com",
+    projectId: "wigo-trip-planner",
+    storageBucket: "wigo-trip-planner.appspot.com",
+    messagingSenderId: "564462594743",
+    appId: "1:564462594743:web:d837f5284d62a2c343bb32"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
 </body>
 </html>
