@@ -35,14 +35,21 @@ class _ItineraryBoxState extends State<ItineraryBox> {
             itemBuilder: (BuildContext context, int index, int realIndex) {
               int dayNumber = index + 1;
               return ListTile(
-                title: Text(
-                  'Day $dayNumber',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 42,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                title: Row(children: [
+                  Text(
+                    'Day $dayNumber',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 42,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  TextButton(
+                    onPressed: () {},
+                    child: Icon(Icons.edit, color: Colors.white),
+                  )
+                ]),
                 subtitle: SingleChildScrollView(
                   child: Text(
                       style: TextStyle(
@@ -51,7 +58,8 @@ class _ItineraryBoxState extends State<ItineraryBox> {
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                       '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n\n\n'),
-                ), // Replace with your content
+                ),
+                // Replace with your content
               );
             },
           ),

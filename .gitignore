@@ -44,3 +44,4 @@ app.*.map.json
 
 #API key t obe ignored
 /lib/firebase_options.dart
+/lib/openai_key.dart

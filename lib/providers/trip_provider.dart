@@ -8,8 +8,10 @@ class TripProvider with ChangeNotifier {
   void loadTripsFromDatabase() async {
     // Load the trips from the database
     TripController tripController = TripController();
-    trips = await tripController.getTripsFromDatabaseForConnectedUser();
-    notifyListeners();
+    tripController.getTripsFromDatabaseForConnectedUser().then((value) {
+      trips = value as List<Trip>;
+      notifyListeners();
+    });
   }
 
   get getTripsList {

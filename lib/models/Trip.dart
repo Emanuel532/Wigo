@@ -8,6 +8,7 @@ class Trip {
   List<String> friends;
   List<String> itinerary;
   String photo;
+  String id = "";
 
   Trip({
     required this.startDate,
@@ -46,6 +47,21 @@ class Trip {
       friends: List<String>.from(json['friends']),
       itinerary: List<String>.from(json['itinerary']),
       photo: json['photo'],
+    );
+  }
+
+  //function to return an empty trip
+  static Trip empty() {
+    return Trip(
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      owner_uuid: '',
+      city: '',
+      budget: 0,
+      members: 0,
+      friends: [],
+      itinerary: [],
+      photo: '',
     );
   }
 }

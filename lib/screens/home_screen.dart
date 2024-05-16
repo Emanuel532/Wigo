@@ -31,6 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentPath = GoRouterState.of(context).uri.toString();
+    final refresh = currentPath.split('/').last;
+    if (refresh == 'true') {
+      Provider.of<TripProvider>(context, listen: false).loadTripsFromDatabase();
+      GoRouter.of(context).go('/');
+    }
     // _isFirstBuild = true;
     if (_isFirstBuild) {
       Provider.of<TripProvider>(context, listen: false).loadTripsFromDatabase();

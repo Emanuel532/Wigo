@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/widgets/itinerary.dart';
@@ -25,7 +26,8 @@ class ViewTripScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentPath = GoRouterState.of(context).uri.toString();
     final tripId = currentPath.split('/').last;
-    trip = Provider.of<TripProvider>(context).getTripById(int.parse(tripId));
+    trip = Provider.of<TripProvider>(context, listen: false)
+        .getTripById(int.parse(tripId));
 
     return Scaffold(
       appBar: AppBar(
@@ -109,29 +111,53 @@ class ViewTripScreen extends StatelessWidget {
                 height: 30,
               ),
               Center(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 199, 85, 100),
-                    foregroundColor: Colors.white,
-                    elevation: 3,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  child: Text(
-                    'Leave trip',
-                    style: GoogleFonts.raleway(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
+                child: LeaveTripButton(
+                  onPressed: () {
+                    TripController()
+                        .deleteATripFromDatabase(trip)
+                        .then((value) {
+                      Provider.of<TripProvider>(context, listen: false)
+                          .removeTrip(trip);
+                      Provider.of<TripProvider>(context, listen: false)
+                          .loadTripsFromDatabase();
+                      GoRouter.of(context).pushReplacement('/');
+                    });
+                    //context.pop();
+                  },
                 ),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class LeaveTripButton extends StatelessWidget {
+  final Function onPressed;
+
+  const LeaveTripButton({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => onPressed(),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color.fromARGB(255, 199, 85, 100),
+        foregroundColor: Colors.white,
+        elevation: 3,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      child: Text(
+        'Leave Trip',
+        style: GoogleFonts.raleway(
+          fontWeight: FontWeight.w600,
+          fontSize: 24,
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
       ),
     );

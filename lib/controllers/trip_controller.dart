@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wigo/models/Trip.dart';
+import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/cloud_firebase_service.dart';
 
 class TripController {
@@ -26,5 +29,13 @@ class TripController {
       });
       return trips;
     });
+  }
+
+  Future<bool> deleteATripFromDatabase(Trip trip) async {
+    _firebaseService.deleteTrip(trip).then((value) {
+      print('s a facut');
+      return true;
+    });
+    return false;
   }
 }
