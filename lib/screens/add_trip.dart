@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +37,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
     city: "",
     budget: 0,
     members: 1,
-    friends: [],
+    friends: [AuthenticationUtils.currentUser?.email ?? 'empty'],
     itinerary: ['The itinerary will be here.'],
     photo: "",
   );
@@ -332,6 +334,8 @@ class _AddTripScreenState extends State<AddTripScreen> {
                 ),
                 onPressed: () {
                   //TODO: Implement trip creation logic here
+                  Random random = Random();
+                  _trip.inviteCode = random.nextInt(9000) + 1000;
                   Provider.of<TripProvider>(context, listen: false)
                       .addTrip(_trip);
                   context.pop();

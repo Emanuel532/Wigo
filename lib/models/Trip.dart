@@ -4,6 +4,7 @@ class Trip {
   String city;
   String owner_uuid;
   double budget;
+  late int inviteCode;
   int members;
   List<String> friends;
   List<String> itinerary;
@@ -28,6 +29,7 @@ class Trip {
       'endDate': endDate.toIso8601String(),
       'owner_uuid': owner_uuid,
       'city': city,
+      'inviteCode': inviteCode,
       'budget': budget,
       'members': members,
       'friends': friends,
