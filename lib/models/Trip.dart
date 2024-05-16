@@ -19,6 +19,7 @@ class Trip {
     required this.budget,
     required this.members,
     required this.friends,
+    this.inviteCode = 0,
     required this.itinerary,
     required this.photo,
   });
@@ -48,6 +49,7 @@ class Trip {
       members: json['members'],
       friends: List<String>.from(json['friends']),
       itinerary: List<String>.from(json['itinerary']),
+      inviteCode: json['inviteCode'],
       photo: json['photo'],
     );
   }

@@ -17,6 +17,14 @@ class CloudFirebaseService {
         .get();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getTripsByMembership(
+      String email) {
+    return _firestore
+        .collection('trips')
+        .where('friends', arrayContains: email)
+        .get();
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getAllDocuments(
       String collection) {
     return _firestore.collection(collection).get();
