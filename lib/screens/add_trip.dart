@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -12,9 +14,98 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_utils.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:wigo/widgets/itinerary.dart';
 
 final Color blue = Color.fromARGB(255, 85, 157, 199);
+Future<List<String>> makeRequest(String location, int days) async {
+  var url = Uri.parse('https://api.llama-api.com/chat/completions');
+
+  String txt = '';
+
+  for (int i = 1; i <= days; i++) {
+    txt +=
+        '"day${i}": {"type": "string", "description": "Activities to do on Day ${i}, in the city specified. Activities need to be listed in separate lines. At least 4 activities"}';
+    if (i != days) txt += ',';
+  }
+
+  String req = '';
+
+  for (int i = 1; i <= days; i++) {
+    req += '"day${i}"';
+    if (i != days) req += ',';
+  }
+
+  var headers = {
+    'Content-Type': 'application/json',
+    'Authorization':
+        'Bearer LL-X7fqGM62HffpQA1qg0PlLFLQ9RNODqQuj0zxBU1f32Z4PEdf9af3ZihHqC7BW5a4', // Replace <token> with your actual token
+  };
+  var body = '''
+  {
+    "messages": [
+        {"role": "user", "content": "Can you give me a ${days}-day trip plan for ${location}?"}
+    ],
+    "functions": [
+        {
+            "name": "get_itinerary",
+            "description": "Get a day-by-day itinerary for a trip in a given city. Each day should have different activities. The itinerary should have each activity listed on a new line.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                  "city": {"type": "string", "description": "The city for the trip."},
+                    $txt
+                }
+            },
+                 "required": [$req]
+           
+        }
+    ],
+    "stream": false,
+    "function_call": "get_itinerary"
+  }
+  ''';
+
+  var response = await http.post(url, headers: headers, body: body);
+
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
+
+  final parsedResponse = json.decode(response.body);
+  final arguments =
+      parsedResponse['choices'][0]['message']['function_call']['arguments'];
+
+  final List<String> tripItinerary = [];
+
+  arguments.forEach((key, value) {
+    if (key.startsWith('day')) {
+      // Check if the parameter starts with 'day'
+      final activities =
+          value.split(', ').join('\n'); // Join activities with new line
+      tripItinerary.add(activities);
+    }
+  });
+
+  print(tripItinerary);
+  return tripItinerary;
+}
+
+int calculateNumberOfDays(DateTime startDate, DateTime endDate) {
+  // Create new DateTime objects with the same date but with time set to 0
+  DateTime start = DateTime(startDate.year, startDate.month, startDate.day);
+  DateTime end = DateTime(endDate.year, endDate.month, endDate.day);
+
+  // Calculate the difference in milliseconds between the two dates
+  int differenceInMilliseconds = end.difference(start).inMilliseconds;
+
+  // Convert milliseconds to days (1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+  int differenceInDays =
+      (differenceInMilliseconds / (24 * 60 * 60 * 1000)).round();
+  print(start);
+  print(end);
+  print(differenceInDays);
+  return differenceInDays + 1;
+}
 
 String formatDateTime(DateTime dateTime) {
   // Define the format pattern
@@ -290,12 +381,16 @@ class _AddTripScreenState extends State<AddTripScreen> {
               SizedBox(height: 64.0),
               TextButton(
                 onPressed: () {
-                  _trip.itinerary = [
-                    'Day 1: Visit museum\nDay 2: Go hiking\nDay 3: Relax on the beach',
-                    'Day 1: Explore the city\nDay 2: Try local cuisine\nDay 3: Attend cultural event',
-                    'Day 1: Sightseeing tour\nDay 2: Shopping\nDay 3: Dinner at fancy restaurant',
-                  ];
-                  setState(() {});
+                  makeRequest(_trip.city,
+                          calculateNumberOfDays(_trip.startDate, _trip.endDate))
+                      .then((tripItinerary) {
+                    // Handle trip itinerary here
+                    _trip.itinerary = tripItinerary;
+                    setState(() {});
+                  }).catchError((error) {
+                    // Handle errors
+                    print('Error: $error');
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 85, 157, 199),
