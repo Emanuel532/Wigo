@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
         ),
         onPressed: () {
-          showAlertDialog(context);
+          showOptionsAlertDialog(context);
 
           //GoRouter.of(context).go('/add-trip');
         },
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-showAlertDialog(BuildContext context) {
+showOptionsAlertDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -200,13 +200,42 @@ showAlertDialog(BuildContext context) {
               GestureDetector(
                 child: Text('Join an existing trip'),
                 onTap: () {
-                  // Add logic to handle joining an existing trip
-                  Navigator.of(context).pop();
+                  showInputDialog(context);
+                  //Navigator.of(context).pop();
                 },
               ),
             ],
           ),
         ),
+      );
+    },
+  );
+}
+
+void showInputDialog(BuildContext context) {
+  String inputText = '';
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Enter your invite code'),
+        content: TextField(
+          onChanged: (value) {
+            inputText = value;
+          },
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              // Handle button press
+              print('Input value: $inputText');
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: Text('Submit'),
+          ),
+        ],
       );
     },
   );
