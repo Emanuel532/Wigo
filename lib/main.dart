@@ -11,6 +11,7 @@ import 'package:wigo/screens/home_screen.dart';
 import 'package:wigo/screens/log_in_screen.dart';
 import 'package:wigo/screens/view_trip.dart';
 import 'package:wigo/services/authentication_utils.dart';
+import 'package:dart_openai/dart_openai.dart';
 
 import 'firebase_options.dart';
 

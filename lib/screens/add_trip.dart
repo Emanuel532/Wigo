@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wigo/controllers/account_controller.dart';
 import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
+import 'package:dart_openai/dart_openai.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_utils.dart';
 import 'package:intl/intl.dart';
@@ -35,7 +36,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
     budget: 0,
     members: 1,
     friends: [],
-    itinerary: [],
+    itinerary: ['The itinerary will be here.'],
     photo: "",
   );
 
@@ -285,7 +286,39 @@ class _AddTripScreenState extends State<AddTripScreen> {
                 ],
               ),
               SizedBox(height: 64.0),
-              ItineraryBox(days: 3),
+              TextButton(
+                onPressed: () {
+                  _trip.itinerary = [
+                    'Day 1: Visit museum\nDay 2: Go hiking\nDay 3: Relax on the beach',
+                    'Day 1: Explore the city\nDay 2: Try local cuisine\nDay 3: Attend cultural event',
+                    'Day 1: Sightseeing tour\nDay 2: Shopping\nDay 3: Dinner at fancy restaurant',
+                  ];
+                  setState(() {});
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 85, 157, 199),
+                  foregroundColor: Colors.white,
+                  elevation: 3,
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Text(
+                  'Create itinerary with AI',
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 32,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              ItineraryBox(
+                itineraryItems: _trip.itinerary,
+              ),
               SizedBox(height: 64.0),
               TextButton(
                 style: ElevatedButton.styleFrom(

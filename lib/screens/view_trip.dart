@@ -85,7 +85,9 @@ class ViewTripScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 48, color: blue, fontWeight: FontWeight.w400),
               ),
-              ItineraryBox(days: 3),
+              ItineraryBox(
+                itineraryItems: trip.itinerary,
+              ),
               Divider(
                 color: blue,
               ),

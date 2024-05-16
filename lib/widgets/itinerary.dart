@@ -3,9 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ItineraryBox extends StatefulWidget {
-  final int days;
+  final List<String> itineraryItems;
 
-  const ItineraryBox({Key? key, required this.days}) : super(key: key);
+  const ItineraryBox({
+    Key? key,
+    required this.itineraryItems,
+  }) : super(key: key);
 
   @override
   State<ItineraryBox> createState() => _ItineraryBoxState();
@@ -16,6 +19,8 @@ class _ItineraryBoxState extends State<ItineraryBox> {
 
   @override
   Widget build(BuildContext context) {
+    int days = widget.itineraryItems.length;
+
     return Container(
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 85, 157, 199),
@@ -27,7 +32,7 @@ class _ItineraryBoxState extends State<ItineraryBox> {
         children: [
           CarouselSlider.builder(
             carouselController: _controller,
-            itemCount: widget.days,
+            itemCount: days,
             options: CarouselOptions(
               viewportFraction: 1.0,
               enableInfiniteScroll: true,
@@ -35,31 +40,34 @@ class _ItineraryBoxState extends State<ItineraryBox> {
             itemBuilder: (BuildContext context, int index, int realIndex) {
               int dayNumber = index + 1;
               return ListTile(
-                title: Row(children: [
-                  Text(
-                    'Day $dayNumber',
+                title: Row(
+                  children: [
+                    Text(
+                      'Day $dayNumber',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 42,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                    Spacer(),
+                    TextButton(
+                      onPressed: () {},
+                      child: Icon(Icons.edit, color: Colors.white),
+                    )
+                  ],
+                ),
+                subtitle: SingleChildScrollView(
+                  child: Text(
+                    widget.itineraryItems[
+                        index], // Use the itinerary item for this day
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 42,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
-                  Spacer(),
-                  TextButton(
-                    onPressed: () {},
-                    child: Icon(Icons.edit, color: Colors.white),
-                  )
-                ]),
-                subtitle: SingleChildScrollView(
-                  child: Text(
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n\n\n'),
                 ),
-                // Replace with your content
               );
             },
           ),
