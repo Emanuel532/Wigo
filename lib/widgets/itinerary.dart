@@ -46,15 +46,10 @@ class _ItineraryBoxState extends State<ItineraryBox> {
                       'Day $dayNumber',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: 42,
+                        fontSize: 64,
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
-                    Spacer(),
-                    TextButton(
-                      onPressed: () {},
-                      child: Icon(Icons.edit, color: Colors.white),
-                    )
                   ],
                 ),
                 subtitle: SingleChildScrollView(
@@ -62,8 +57,8 @@ class _ItineraryBoxState extends State<ItineraryBox> {
                     widget.itineraryItems[
                         index], // Use the itinerary item for this day
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
