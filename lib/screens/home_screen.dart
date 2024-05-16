@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_service.dart';
@@ -228,8 +229,17 @@ void showInputDialog(BuildContext context) {
         actions: [
           ElevatedButton(
             onPressed: () {
-              // Handle button press
               print('Input value: $inputText');
+              //implement database join trip logic
+              //Provider.of<TripProvider>(context, listen: false).joinTrip(inputText);
+              TripController tripController = TripController();
+              tripController
+                  .getTripByInviteCode(int.parse(inputText),
+                      AuthenticationUtils.currentUser?.email ?? "")
+                  .then((value) {
+                print(value.city);
+              });
+              //await print('invite trip gasit: ${}');
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },

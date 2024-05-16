@@ -37,4 +37,14 @@ class TripProvider with ChangeNotifier {
   int get tripCount {
     return trips.length;
   }
+
+/*
+  void joinTrip(int inviteCode) {
+    TripController tripController = TripController();
+    tripController.joinTrip(inviteCode);
+    Trip tripp = tripController.getTripByInviteCode(inviteCode);
+    trips.add(tripp);
+    notifyListeners();
+  }
+  */
 }

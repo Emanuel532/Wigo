@@ -16,6 +16,28 @@ class TripController {
     _firebaseService.addDocument('trips', trip.toJSON());
   }
 
+  Future<Trip> getTripByInviteCode(int inviteCode, String email) {
+    Trip toBeReturnedTrip = Trip(
+        city: 'No city',
+        photo: "",
+        itinerary: [],
+        members: 0,
+        budget: 0,
+        owner_uuid: 'No owner',
+        friends: [],
+        startDate: DateTime.now(),
+        endDate: DateTime.now());
+    // Load the trips from the database
+    return _firebaseService
+        .getTripByInviteCode(inviteCode, email)
+        .then((tripData) {
+      Trip trip = Trip.fromJSON(tripData.data() ?? {});
+      //print(trip.city);
+      toBeReturnedTrip = trip;
+      return trip;
+    });
+  }
+
   Future getTripsFromDatabaseForConnectedUser() {
     String uuid = FirebaseAuth.instance.currentUser?.uid != null
         ? FirebaseAuth.instance.currentUser!.uid
@@ -30,6 +52,19 @@ class TripController {
       return trips;
     });
   }
+/*
+  Future joinTrip(int inviteCode) async {
+    String uuid = FirebaseAuth.instance.currentUser?.uid != null
+        ? FirebaseAuth.instance.currentUser!.uid
+        : '';
+    // Load the trips from the database
+    return _firebaseService.getTripByInviteCode(inviteCode).then((tripData) {
+      Trip trip = Trip.fromJSON(tripData.data());
+      trip.friends.add(uuid);
+      _firebaseService.updateTrip(trip);
+      return trip;
+    });
+  }*/
 
   Future<bool> deleteATripFromDatabase(Trip trip) async {
     _firebaseService.deleteTrip(trip).then((value) {

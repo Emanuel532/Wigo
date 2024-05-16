@@ -47,4 +47,21 @@ class CloudFirebaseService {
       });
     });
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getTripByInviteCode(
+      int inviteCode, String email) {
+    //_firestore.collection('trips').where('invitedCode', isEqualTo: inviteCode
+    return _firestore
+        .collection('trips')
+        .where('inviteCode', isEqualTo: inviteCode)
+        .get()
+        .then((value) {
+      List<String> ls = List<String>.from(value.docs.first.data()['friends']);
+
+      // print(value.docs.first.data().toString());
+      ls.add(email);
+      value.docs.first.reference.update({'friends': ls});
+      return value.docs.first;
+    });
+  }
 }
