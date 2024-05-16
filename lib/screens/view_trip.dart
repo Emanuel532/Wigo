@@ -105,7 +105,13 @@ class ViewTripScreen extends StatelessWidget {
                 itemCount: trip.friends.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(trip.friends[index]),
+                    title: Text(
+                      trip.friends[index],
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: blue,
+                          fontWeight: FontWeight.w600),
+                    ),
                   );
                 },
               ),
