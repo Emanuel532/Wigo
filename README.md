@@ -1,16 +1,61 @@
-# wigo
+# Wigo: Plan Trips with Friends
 
-A new Flutter project.
+Welcome to Wigo! This is an app designed to help you plan trips with your friends, whether on your mobile or on the web (using a shareable link).
+
+## Features
+
+- **Create and manage trip itineraries**: Add destinations, activities, and dates to keep your trip organized.
+- **Invite friends**: Get your friends involved in planning and make decisions together.
+- **Share trip details and updates**: (Coming soon) Easily keep everyone in the loop with the latest trip information.
+
+## Supported Platforms
+
+- **Android**
+- **Web**
+
+*We're working on adding support for iOS in the future.*
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get started with Wigo, you'll need Flutter installed on your machine. If you haven't set it up yet, check out the [Flutter installation guide](https://docs.flutter.dev/get-started/install).
 
-A few resources to get you started if this is your first Flutter project:
+### Step-by-Step Setup
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. **Clone the Wigo repository**:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    ```bash
+    git clone https://your-git-repository-url.git
+    ```
+
+2. **Navigate to the project directory**:
+
+    ```bash
+    cd wigo
+    ```
+
+3. **Install the dependencies**:
+
+    ```bash
+    flutter pub get
+    ```
+
+4. **Run the app**:
+
+    - **On Android**:
+
+        ```bash
+        flutter run
+        ```
+
+    - **On Web**:
+
+        ```bash
+        flutter run -d web
+        ```
+
+*Note: To fully utilize Wigo, you'll need to set up a Firebase project for user authentication and data storage. Detailed instructions for this will be provided later.*
+
+
+Thanks for checking out Wigo. Happy trip planning!
+
+This project is developed by [Emanuel532](https://github.com/Emanuel532) and [mariomairovitz](https://github.com/mariomairovitz).
