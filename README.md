@@ -2,6 +2,8 @@
 
 Welcome to Wigo! This is an app designed to help you plan trips with your friends, whether on your mobile or on the web (using a shareable link).
 
+*
+
 ## Features
 
 - **Create and manage trip itineraries**: Add destinations, activities, and dates to keep your trip organized.
@@ -24,7 +26,7 @@ To get started with Wigo, you'll need Flutter installed on your machine. If you 
 1. **Clone the Wigo repository**:
 
     ```bash
-    git clone https://your-git-repository-url.git
+    git clone https://github.com/Emanuel532/Wigo.git
     ```
 
 2. **Navigate to the project directory**:
@@ -53,7 +55,7 @@ To get started with Wigo, you'll need Flutter installed on your machine. If you 
         flutter run -d web
         ```
 
-*Note: To fully utilize Wigo, you'll need to set up a Firebase project for user authentication and data storage. Detailed instructions for this will be provided later.*
+*Note: To fully utilize Wigo, you'll need to set up a Firebase project for user authentication and data storage.*
 
 
 Thanks for checking out Wigo. Happy trip planning!
