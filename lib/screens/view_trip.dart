@@ -76,6 +76,12 @@ class ViewTripScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18, color: blue, fontWeight: FontWeight.w400),
               ),
+              SizedBox(height: 8),
+              Text(
+                'Invite code: ${trip.inviteCode}',
+                style: TextStyle(
+                    fontSize: 18, color: blue, fontWeight: FontWeight.w400),
+              ),
               SizedBox(height: 10),
               Divider(
                 color: blue,
