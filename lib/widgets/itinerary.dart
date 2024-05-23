@@ -21,12 +21,46 @@ class _ItineraryBoxState extends State<ItineraryBox> {
   Widget build(BuildContext context) {
     int days = widget.itineraryItems.length;
 
+    if (days == 0) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF559DC7),
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 4),
+              blurRadius: 10.0,
+            ),
+          ],
+        ),
+        padding: EdgeInsets.all(20.0),
+        child: Center(
+          child: Text(
+            'No itinerary available',
+            style: GoogleFonts.lato(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    }
+
     return Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 85, 157, 199),
-        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF559DC7),
+        borderRadius: BorderRadius.circular(15.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(0, 4),
+            blurRadius: 10.0,
+          ),
+        ],
       ),
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -36,28 +70,62 @@ class _ItineraryBoxState extends State<ItineraryBox> {
             options: CarouselOptions(
               viewportFraction: 1.0,
               enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 5),
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
             ),
             itemBuilder: (BuildContext context, int index, int realIndex) {
               int dayNumber = index + 1;
-              return ListTile(
-                title: Text(
-                  'Day $dayNumber',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 42,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-                subtitle: SingleChildScrollView(
-                  child: Text(
-                    widget.itineraryItems[
-                        index], // Use the itinerary item for this day
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 255, 255, 255),
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 10.0),
+                padding: EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 4),
+                      blurRadius: 10.0,
                     ),
-                  ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Day $dayNumber',
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32,
+                        color: Color(0xFF559DC7),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: widget.itineraryItems[index]
+                              .split('\n')
+                              .map((paragraph) => Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 16.0),
+                                    child: Text(
+                                      paragraph,
+                                      style: GoogleFonts.lato(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
