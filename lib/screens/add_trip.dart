@@ -15,11 +15,20 @@ import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/authentication_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:wigo/widgets/budget_selector.dart';
+import 'package:wigo/widgets/buttons/accommodation_button.dart';
 import 'package:wigo/widgets/itinerary.dart';
 
 final Color blue = Color.fromARGB(255, 85, 157, 199);
-Future<List<String>> makeRequest(String location, int days) async {
+Future<Map<String, dynamic>> makeRequest(
+    String location, int days, String inputBudget) async {
   var url = Uri.parse('https://api.llama-api.com/chat/completions');
+  String budget = '';
+  if (inputBudget == '\$')
+    budget = 'low';
+  else if (inputBudget == '\$\$')
+    budget = 'medium';
+  else if (inputBudget == '\$\$\$') budget = 'high';
 
   String txt = '';
 
@@ -53,11 +62,12 @@ Future<List<String>> makeRequest(String location, int days) async {
             "parameters": {
                 "type": "object",
                 "properties": {
+                  "accommodation" : {"type": "string", "description": "Provide an accommodation (a specific hostel, hotel etc.) option for the trip. Make sure it is a ${budget} budget accommodation."},
                   "city": {"type": "string", "description": "The city for the trip."},
                     $txt
                 }
             },
-                 "required": [$req]
+                 "required": [$req ,"accommodation", "transport"]
            
         }
     ],
@@ -75,6 +85,7 @@ Future<List<String>> makeRequest(String location, int days) async {
   final arguments =
       parsedResponse['choices'][0]['message']['function_call']['arguments'];
 
+  final tripAccommodation = arguments['accommodation'];
   final List<String> tripItinerary = [];
 
   arguments.forEach((key, value) {
@@ -86,8 +97,13 @@ Future<List<String>> makeRequest(String location, int days) async {
     }
   });
 
-  print(tripItinerary);
-  return tripItinerary;
+  final dictionary = {
+    "itinerary": tripItinerary,
+    "accommodation": tripAccommodation
+  };
+
+  print(dictionary);
+  return dictionary;
 }
 
 int calculateNumberOfDays(DateTime startDate, DateTime endDate) {
@@ -103,7 +119,7 @@ int calculateNumberOfDays(DateTime startDate, DateTime endDate) {
       (differenceInMilliseconds / (24 * 60 * 60 * 1000)).round();
   print(start);
   print(end);
-  print(differenceInDays);
+  print(differenceInDays + 1);
   return differenceInDays + 1;
 }
 
@@ -135,6 +151,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String tripAccommodation = 'Accommodation';
     _trip.owner_uuid = AuthenticationUtils.currentUser?.uid != null
         ? AuthenticationUtils.currentUser!.uid
         : 'empty';
@@ -321,33 +338,9 @@ class _AddTripScreenState extends State<AddTripScreen> {
               SizedBox(height: 64.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Budget',
-                        labelStyle: GoogleFonts.raleway(
-                          textStyle: TextStyle(
-                            color: Color.fromARGB(255, 85, 157, 199),
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(color: blue, width: 2),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(fontSize: 32.0, color: blue),
-                      onChanged: (value) {
-                        setState(() {
-                          _trip.budget = double.tryParse(value) ?? 0.0;
-                        });
-                      },
-                    ),
-                  ),
+                  BudgetSelector(),
 
                   SizedBox(width: 10), // Add some space between the text fields
                   Container(
@@ -381,11 +374,15 @@ class _AddTripScreenState extends State<AddTripScreen> {
               SizedBox(height: 64.0),
               TextButton(
                 onPressed: () {
-                  makeRequest(_trip.city,
-                          calculateNumberOfDays(_trip.startDate, _trip.endDate))
-                      .then((tripItinerary) {
+                  makeRequest(
+                          _trip.city,
+                          calculateNumberOfDays(_trip.startDate, _trip.endDate),
+                          '\$')
+                      .then((dictionary) {
                     // Handle trip itinerary here
-                    _trip.itinerary = tripItinerary;
+                    _trip.itinerary = dictionary['itinerary'];
+                    tripAccommodation =
+                        "Accommodation: " + dictionary['accommodation'];
                     setState(() {});
                   }).catchError((error) {
                     // Handle errors
@@ -416,6 +413,10 @@ class _AddTripScreenState extends State<AddTripScreen> {
               ItineraryBox(
                 itineraryItems: _trip.itinerary,
               ),
+              SizedBox(
+                height: 16,
+              ),
+              AccommodationButton(initialText: tripAccommodation),
               SizedBox(height: 64.0),
               TextButton(
                 style: ElevatedButton.styleFrom(
