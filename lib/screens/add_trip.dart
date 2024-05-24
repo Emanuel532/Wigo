@@ -20,6 +20,8 @@ import 'package:wigo/widgets/buttons/accommodation_button.dart';
 import 'package:wigo/widgets/itinerary.dart';
 
 final Color blue = Color.fromARGB(255, 85, 157, 199);
+String tripAccommodation = 'Accommodation';
+
 Future<Map<String, dynamic>> makeRequest(
     String location, int days, String inputBudget) async {
   var url = Uri.parse('https://api.llama-api.com/chat/completions');
@@ -151,7 +153,6 @@ class _AddTripScreenState extends State<AddTripScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String tripAccommodation = 'Accommodation';
     _trip.owner_uuid = AuthenticationUtils.currentUser?.uid != null
         ? AuthenticationUtils.currentUser!.uid
         : 'empty';
@@ -381,9 +382,10 @@ class _AddTripScreenState extends State<AddTripScreen> {
                       .then((dictionary) {
                     // Handle trip itinerary here
                     _trip.itinerary = dictionary['itinerary'];
-                    tripAccommodation =
-                        "Accommodation: " + dictionary['accommodation'];
-                    setState(() {});
+
+                    setState(() {
+                      tripAccommodation = dictionary['accommodation'];
+                    });
                   }).catchError((error) {
                     // Handle errors
                     print('Error: $error');
