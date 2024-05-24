@@ -59,4 +59,4 @@ To get started with Wigo, you'll need Flutter installed on your machine. If you 
 
 
 
-This project is developed by [Emanuel532](https://github.com/Emanuel532), [andreiilles](https://github.com/andreiilles) and [mariomairovitz](https://github.com/mariomairovitz).
+This project is developed by [Emanuel532](https://github.com/Emanuel532) and [mariomairovitz](https://github.com/mariomairovitz).
