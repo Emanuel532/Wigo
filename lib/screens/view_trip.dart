@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
+import 'package:wigo/widgets/buttons/accommodation_button.dart';
 import 'package:wigo/widgets/itinerary.dart';
 
 final Color blue = Color.fromARGB(255, 85, 157, 199);
@@ -94,6 +95,9 @@ class ViewTripScreen extends StatelessWidget {
               ItineraryBox(
                 itineraryItems: trip.itinerary,
               ),
+              SizedBox(height: 10),
+              Center(
+                  child: AccommodationButton(initialText: trip.accommodation)),
               Divider(
                 color: blue,
               ),

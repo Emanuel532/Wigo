@@ -22,9 +22,10 @@ class TripController {
         photo: "",
         itinerary: [],
         members: 0,
-        budget: 0,
+        budget: '',
         owner_uuid: 'No owner',
         friends: [],
+        accommodation: 'Accommodation',
         startDate: DateTime.now(),
         endDate: DateTime.now());
     // Load the trips from the database

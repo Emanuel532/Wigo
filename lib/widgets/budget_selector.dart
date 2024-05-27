@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BudgetSelector extends StatefulWidget {
+  final Function(String) onBudgetSelected;
+
+  BudgetSelector({required this.onBudgetSelected});
+
   @override
   _BudgetSelectorState createState() => _BudgetSelectorState();
 }
@@ -14,7 +18,6 @@ class _BudgetSelectorState extends State<BudgetSelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,6 +38,7 @@ class _BudgetSelectorState extends State<BudgetSelector> {
             onPressed: (index) {
               setState(() {
                 _selectedBudgetIndex = index;
+                widget.onBudgetSelected(_budgetOptions[_selectedBudgetIndex]);
               });
             },
             selectedColor: Colors.white,

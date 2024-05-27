@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+void promptGoogleSearch(String query) async {
+  final String urlString =
+      'https://www.google.com/search?q=${Uri.encodeComponent(query)}';
+  final Uri url = Uri.parse(urlString);
+
+  if (await canLaunch(urlString)) {
+    await launch(urlString);
+  } else {
+    throw Exception('Could not launch $urlString');
+  }
+}
 
 class AccommodationButton extends StatelessWidget {
   final String initialText;
@@ -12,7 +25,9 @@ class AccommodationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {}, // Call update function on press
+      onPressed: () {
+        promptGoogleSearch(initialText);
+      }, // Call update function on press
       child: Text(
         initialText, // Use current text state
         style: GoogleFonts.raleway(

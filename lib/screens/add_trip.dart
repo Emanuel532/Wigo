@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ String tripAccommodation = 'Accommodation';
 
 Future<Map<String, dynamic>> makeRequest(
     String location, int days, String inputBudget) async {
+  print(inputBudget);
   var url = Uri.parse('https://api.llama-api.com/chat/completions');
   String budget = '';
   if (inputBudget == '\$')
@@ -50,7 +52,7 @@ Future<Map<String, dynamic>> makeRequest(
   var headers = {
     'Content-Type': 'application/json',
     'Authorization':
-        'Bearer LL-X7fqGM62HffpQA1qg0PlLFLQ9RNODqQuj0zxBU1f32Z4PEdf9af3ZihHqC7BW5a4', // Replace <token> with your actual token
+        'Bearer LL-5iXRCkdyEYrO1j2YvaUmDpTugqtEUAKKtH9Dr4LguQaH2rnMvOSuLgFGBBVUXc4r', // Replace <token> with your actual token
   };
   var body = '''
   {
@@ -60,7 +62,7 @@ Future<Map<String, dynamic>> makeRequest(
     "functions": [
         {
             "name": "get_itinerary",
-            "description": "Get a day-by-day itinerary for a trip in a given city. Each day should have different activities. The itinerary should have each activity listed on a new line.",
+            "description": "Get a day-by-day itinerary for a trip in a given city. Each day should have different activities. The itinerary should have each activity listed on a new line. Make sure all the letters are in the latin alphabet.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -69,7 +71,7 @@ Future<Map<String, dynamic>> makeRequest(
                     $txt
                 }
             },
-                 "required": [$req ,"accommodation", "transport"]
+                 "required": [$req ,"accommodation"]
            
         }
     ],
@@ -77,7 +79,10 @@ Future<Map<String, dynamic>> makeRequest(
     "function_call": "get_itinerary"
   }
   ''';
-
+  print('////////////////////////////////////////////////////////////////');
+  print(headers);
+  print('////////////////////////////////////////////////////////////////');
+  print(body);
   var response = await http.post(url, headers: headers, body: body);
 
   print('Response status: ${response.statusCode}');
@@ -144,12 +149,21 @@ class _AddTripScreenState extends State<AddTripScreen> {
     endDate: DateTime.now(),
     owner_uuid: 'empty',
     city: "",
-    budget: 0,
+    budget: '\$',
     members: 1,
+    accommodation: 'Accommodation',
     friends: [AuthenticationUtils.currentUser?.email ?? 'empty'],
     itinerary: ['The itinerary will be here.'],
     photo: "",
   );
+
+  String _selectedBudget = '\$';
+
+  void _handleBudgetSelected(String budget) {
+    setState(() {
+      _selectedBudget = budget;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -341,14 +355,20 @@ class _AddTripScreenState extends State<AddTripScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  BudgetSelector(),
+                  BudgetSelector(onBudgetSelected: _handleBudgetSelected),
 
                   SizedBox(width: 10), // Add some space between the text fields
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.3,
                     child: TextField(
                       decoration: InputDecoration(
-                        labelText: 'Members',
+                        label: Center(
+                          child: Icon(
+                            Icons.people_alt,
+                            color: blue,
+                            size: 40,
+                          ),
+                        ),
                         labelStyle: GoogleFonts.raleway(
                           textStyle: TextStyle(
                             color: Color.fromARGB(255, 85, 157, 199),
@@ -378,14 +398,12 @@ class _AddTripScreenState extends State<AddTripScreen> {
                   makeRequest(
                           _trip.city,
                           calculateNumberOfDays(_trip.startDate, _trip.endDate),
-                          '\$')
+                          _selectedBudget)
                       .then((dictionary) {
                     // Handle trip itinerary here
                     _trip.itinerary = dictionary['itinerary'];
-
-                    setState(() {
-                      tripAccommodation = dictionary['accommodation'];
-                    });
+                    _trip.accommodation = dictionary['accommodation'];
+                    setState(() {});
                   }).catchError((error) {
                     // Handle errors
                     print('Error: $error');
@@ -418,7 +436,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
               SizedBox(
                 height: 16,
               ),
-              AccommodationButton(initialText: tripAccommodation),
+              AccommodationButton(initialText: _trip.accommodation),
               SizedBox(height: 64.0),
               TextButton(
                 style: ElevatedButton.styleFrom(
@@ -434,6 +452,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                   //TODO: Implement trip creation logic here
                   Random random = Random();
                   _trip.inviteCode = random.nextInt(9000) + 1000;
+                  _trip.budget = _selectedBudget;
                   Provider.of<TripProvider>(context, listen: false)
                       .addTrip(_trip);
                   context.pop();

@@ -3,13 +3,14 @@ class Trip {
   DateTime endDate;
   String city;
   String owner_uuid;
-  double budget;
+  String budget;
   late int inviteCode;
   int members;
   List<String> friends;
   List<String> itinerary;
   String photo;
   String id = "";
+  String accommodation = 'Accommodation';
 
   Trip({
     required this.startDate,
@@ -22,6 +23,7 @@ class Trip {
     this.inviteCode = 0,
     required this.itinerary,
     required this.photo,
+    required this.accommodation,
   });
 
   Map<String, dynamic> toJSON() {
@@ -36,36 +38,37 @@ class Trip {
       'friends': friends,
       'itinerary': itinerary,
       'photo': photo,
+      'accommodation': accommodation
     };
   }
 
   factory Trip.fromJSON(Map<String, dynamic> json) {
     return Trip(
-      startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
-      owner_uuid: json['owner_uuid'],
-      city: json['city'],
-      budget: json['budget'].toDouble(),
-      members: json['members'],
-      friends: List<String>.from(json['friends']),
-      itinerary: List<String>.from(json['itinerary']),
-      inviteCode: json['inviteCode'],
-      photo: json['photo'],
-    );
+        startDate: DateTime.parse(json['startDate']),
+        endDate: DateTime.parse(json['endDate']),
+        owner_uuid: json['owner_uuid'],
+        city: json['city'],
+        budget: json['budget'],
+        members: json['members'],
+        friends: List<String>.from(json['friends']),
+        itinerary: List<String>.from(json['itinerary']),
+        inviteCode: json['inviteCode'],
+        photo: json['photo'],
+        accommodation: json['accommodation']);
   }
 
   //function to return an empty trip
   static Trip empty() {
     return Trip(
-      startDate: DateTime.now(),
-      endDate: DateTime.now(),
-      owner_uuid: '',
-      city: '',
-      budget: 0,
-      members: 0,
-      friends: [],
-      itinerary: [],
-      photo: '',
-    );
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        owner_uuid: '',
+        city: '',
+        budget: '',
+        members: 0,
+        friends: [],
+        itinerary: [],
+        photo: '',
+        accommodation: 'Accommodation');
   }
 }
