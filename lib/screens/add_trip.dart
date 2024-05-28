@@ -149,6 +149,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
     endDate: DateTime.now(),
     owner_uuid: 'empty',
     city: "",
+    isPublic: false,
     budget: '\$',
     members: 1,
     accommodation: 'Accommodation',
@@ -157,6 +158,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
     photo: "",
   );
 
+  bool isTripPublic = false;
   String _selectedBudget = '\$';
 
   void _handleBudgetSelected(String budget) {
@@ -393,6 +395,25 @@ class _AddTripScreenState extends State<AddTripScreen> {
                 ],
               ),
               SizedBox(height: 64.0),
+              Row(children: [
+                Text(
+                  "Make trip public",
+                  style: GoogleFonts.raleway(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 26,
+                    color: blue,
+                  ),
+                ),
+                Spacer(),
+                Checkbox(
+                    value: isTripPublic,
+                    onChanged: (valoare) {
+                      setState(() {
+                        isTripPublic = valoare ?? false;
+                      });
+                    }),
+              ]),
+              SizedBox(height: 64.0),
               TextButton(
                 onPressed: () {
                   makeRequest(
@@ -453,6 +474,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                   Random random = Random();
                   _trip.inviteCode = random.nextInt(9000) + 1000;
                   _trip.budget = _selectedBudget;
+                  _trip.isPublic = isTripPublic;
                   Provider.of<TripProvider>(context, listen: false)
                       .addTrip(_trip);
                   context.pop();

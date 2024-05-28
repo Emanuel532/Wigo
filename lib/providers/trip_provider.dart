@@ -4,12 +4,23 @@ import 'package:wigo/models/Trip.dart';
 
 class TripProvider with ChangeNotifier {
   List<Trip> trips = [];
+  List<Trip> publicTrips = [];
 
   void loadTripsFromDatabase() async {
     // Load the trips from the database
     TripController tripController = TripController();
     tripController.getTripsFromDatabaseForConnectedUser().then((value) {
       trips = value as List<Trip>;
+
+      notifyListeners();
+    });
+
+    tripController.getPublicTrips().then((value) {
+      print('dataa');
+      print(value);
+      publicTrips = value as List<Trip>;
+      print("DEBUGGG");
+      print(publicTrips.length);
       notifyListeners();
     });
   }
@@ -20,6 +31,10 @@ class TripProvider with ChangeNotifier {
 
   Trip getTripById(int tripId) {
     return trips[tripId];
+  }
+
+  Trip getPublicTripById(int tripId) {
+    return publicTrips[tripId];
   }
 
   void addTrip(Trip _trip) {
@@ -38,6 +53,9 @@ class TripProvider with ChangeNotifier {
     return trips.length;
   }
 
+  int get publicTripCount {
+    return publicTrips.length;
+  }
 /*
   void joinTrip(int inviteCode) {
     TripController tripController = TripController();

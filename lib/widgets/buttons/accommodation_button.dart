@@ -7,7 +7,7 @@ void promptGoogleSearch(String query) async {
       'https://www.google.com/search?q=${Uri.encodeComponent(query)}';
   final Uri url = Uri.parse(urlString);
 
-  if (await canLaunch(urlString)) {
+  if (await canLaunch(urlString) != null) {
     await launch(urlString);
   } else {
     throw Exception('Could not launch $urlString');

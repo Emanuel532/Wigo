@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
+import 'package:wigo/services/authentication_utils.dart';
 import 'package:wigo/widgets/buttons/accommodation_button.dart';
 import 'package:wigo/widgets/itinerary.dart';
 
@@ -19,16 +21,16 @@ String formatDateTime(DateTime dateTime) {
   return formatter.format(dateTime).toUpperCase();
 }
 
-class ViewTripScreen extends StatelessWidget {
+class ViewPublicTripScreen extends StatelessWidget {
   late Trip trip;
-  ViewTripScreen();
+  ViewPublicTripScreen();
 
   @override
   Widget build(BuildContext context) {
     final currentPath = GoRouterState.of(context).uri.toString();
     final tripId = currentPath.split('/').last;
     trip = Provider.of<TripProvider>(context, listen: false)
-        .getTripById(int.parse(tripId));
+        .getPublicTripById(int.parse(tripId));
 
     return Scaffold(
       appBar: AppBar(
@@ -132,20 +134,23 @@ class ViewTripScreen extends StatelessWidget {
                 height: 30,
               ),
               Center(
-                child: LeaveTripButton(
-                  onPressed: () {
-                    TripController()
-                        .deleteATripFromDatabase(trip)
-                        .then((value) {
-                      Provider.of<TripProvider>(context, listen: false)
-                          .removeTrip(trip);
-                      Provider.of<TripProvider>(context, listen: false)
-                          .loadTripsFromDatabase();
-                      GoRouter.of(context).pushReplacement('/');
-                    });
-                    //context.pop();
-                  },
-                ),
+                child: trip.friends.contains(
+                        (AuthenticationUtils.currentUser?.email ?? ""))
+                    ? LeaveTripButton(
+                        onPressed: () {
+                          TripController()
+                              .deleteATripFromDatabase(trip)
+                              .then((value) {
+                            Provider.of<TripProvider>(context, listen: false)
+                                .removeTrip(trip);
+                            Provider.of<TripProvider>(context, listen: false)
+                                .loadTripsFromDatabase();
+                            GoRouter.of(context).pushReplacement('/');
+                          });
+                          //context.pop();
+                        },
+                      )
+                    : Text("EVENTUAL BUTON DE DAT JOIN REQUESt LA TRIP"),
               )
             ],
           ),

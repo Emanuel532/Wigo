@@ -17,6 +17,13 @@ class CloudFirebaseService {
         .get();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getPublicTrips() {
+    return _firestore
+        .collection('trips')
+        .where('isPublic', isEqualTo: true)
+        .get();
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getTripsByMembership(
       String email) {
     return _firestore

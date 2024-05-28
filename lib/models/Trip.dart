@@ -8,6 +8,7 @@ class Trip {
   int members;
   List<String> friends;
   List<String> itinerary;
+  bool isPublic = false;
   String photo;
   String id = "";
   String accommodation = 'Accommodation';
@@ -24,6 +25,7 @@ class Trip {
     required this.itinerary,
     required this.photo,
     required this.accommodation,
+    required this.isPublic,
   });
 
   Map<String, dynamic> toJSON() {
@@ -38,7 +40,8 @@ class Trip {
       'friends': friends,
       'itinerary': itinerary,
       'photo': photo,
-      'accommodation': accommodation
+      'accommodation': accommodation,
+      'isPublic': isPublic,
     };
   }
 
@@ -54,6 +57,7 @@ class Trip {
         itinerary: List<String>.from(json['itinerary']),
         inviteCode: json['inviteCode'],
         photo: json['photo'],
+        isPublic: json['isPublic'],
         accommodation: json['accommodation']);
   }
 
@@ -68,6 +72,7 @@ class Trip {
         members: 0,
         friends: [],
         itinerary: [],
+        isPublic: false,
         photo: '',
         accommodation: 'Accommodation');
   }

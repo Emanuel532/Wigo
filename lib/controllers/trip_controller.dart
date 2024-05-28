@@ -25,6 +25,7 @@ class TripController {
         budget: '',
         owner_uuid: 'No owner',
         friends: [],
+        isPublic: false,
         accommodation: 'Accommodation',
         startDate: DateTime.now(),
         endDate: DateTime.now());
@@ -69,6 +70,19 @@ class TripController {
         Trip trip = Trip.fromJSON(tripData.data());
         trips.add(trip);
       });
+    });
+
+    return trips;
+  }
+
+  Future getPublicTrips() async {
+    List<Trip> trips = [];
+    await _firebaseService.getPublicTrips().then((tripsData) {
+      tripsData.docs.forEach((tripData) {
+        Trip trip = Trip.fromJSON(tripData.data());
+        trips.add(trip);
+      });
+      print(trips.length);
     });
 
     return trips;

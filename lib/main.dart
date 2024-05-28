@@ -9,6 +9,7 @@ import 'package:wigo/screens/forgot_password.dart';
 import 'package:wigo/screens/sign_up_screen.dart';
 import 'package:wigo/screens/home_screen.dart';
 import 'package:wigo/screens/log_in_screen.dart';
+import 'package:wigo/screens/view_public_trip_screen.dart';
 import 'package:wigo/screens/view_trip.dart';
 import 'package:wigo/services/authentication_utils.dart';
 import 'package:dart_openai/dart_openai.dart';
@@ -64,6 +65,11 @@ final GoRouter _router = GoRouter(
             path: 'view-trip/:tripId',
             builder: (BuildContext context, GoRouterState state) {
               return ViewTripScreen();
+            }),
+        GoRoute(
+            path: 'view-public-trip/:tripId',
+            builder: (BuildContext context, GoRouterState state) {
+              return ViewPublicTripScreen();
             }),
       ],
     ),

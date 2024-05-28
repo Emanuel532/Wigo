@@ -62,59 +62,59 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<TripProvider>(context, listen: false)
               .loadTripsFromDatabase();
         },
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: Text(
-                'Welcome!',
-                style: GoogleFonts.raleway(
-                    fontWeight: FontWeight.w800, fontSize: 50, color: blue),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Text(
-                'Connected with: ${AuthenticationUtils.currentUser?.email}',
-                style: GoogleFonts.raleway(
-                    fontWeight: FontWeight.w500, fontSize: 32, color: blue),
-                textAlign: TextAlign.right,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 85, 157, 199),
-                foregroundColor: Colors.white,
-                elevation: 3,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: Text(
+                  'Welcome!',
+                  style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w800, fontSize: 50, color: blue),
+                  textAlign: TextAlign.left,
                 ),
               ),
-              child: Text(
-                'Sign Out',
-                style: GoogleFonts.raleway(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 26,
-                    color: Color.fromARGB(255, 255, 255, 255)),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                  'Connected with: ${AuthenticationUtils.currentUser?.email}',
+                  style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w500, fontSize: 32, color: blue),
+                  textAlign: TextAlign.right,
+                ),
               ),
-              onPressed: () {
-                AuthenticationService.signOut();
-                GoRouter.of(context).pushReplacement('/login');
-              },
-            ),
-            Divider(
-              color: blue,
-              thickness: 2,
-            ),
-            Center(
-              child: Column(
+              SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 85, 157, 199),
+                  foregroundColor: Colors.white,
+                  elevation: 3,
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: Text(
+                  'Sign Out',
+                  style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 26,
+                      color: Color.fromARGB(255, 255, 255, 255)),
+                ),
+                onPressed: () {
+                  AuthenticationService.signOut();
+                  GoRouter.of(context).pushReplacement('/login');
+                },
+              ),
+              Divider(
+                color: blue,
+                thickness: 2,
+              ),
+              Column(
                 //toDO: Add a list of trips here + design
                 children: [
                   Container(
@@ -161,8 +161,62 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-            ),
-          ],
+
+              ///AL DOILEA
+              ///
+              ///
+              ///
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                    child: Text(
+                      'Public Trips',
+                      style: GoogleFonts.raleway(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 42,
+                          color: blue),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Container(
+                    height: (screenSize.height -
+                            AppBar().preferredSize.height -
+                            /*keyboardheight -*/
+                            MediaQuery.of(context).viewPadding.top) *
+                        0.46,
+                    child: Consumer<TripProvider>(
+                      builder: (context, tripProvider, child) {
+                        return ListView.builder(
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () {
+                                  GoRouter.of(context).go(
+                                      '/view-public-trip/${index.toString()}');
+                                },
+                                child: TripCard(
+                                  endDate:
+                                      tripProvider.publicTrips[index].endDate,
+                                  startDate:
+                                      tripProvider.publicTrips[index].startDate,
+                                  location:
+                                      tripProvider.publicTrips[index].city,
+                                  maxMembers:
+                                      tripProvider.publicTrips[index].members,
+                                  numberOfMembers: tripProvider
+                                      .publicTrips[index].friends.length,
+                                ));
+                          },
+                          itemCount: tripProvider.publicTripCount,
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
