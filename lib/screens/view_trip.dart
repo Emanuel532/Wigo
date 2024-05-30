@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:unsplash_client/unsplash_client.dart';
 import 'package:wigo/controllers/trip_controller.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
@@ -49,6 +50,12 @@ class ViewTripScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.network(
+                trip.photo,
+                width: double.infinity,
+                height: 200,
+                fit: BoxFit.cover,
+              ),
               Text(
                 'Trip to ${trip.city}',
                 style: GoogleFonts.raleway(

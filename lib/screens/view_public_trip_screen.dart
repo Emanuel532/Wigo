@@ -51,6 +51,12 @@ class ViewPublicTripScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.network(
+                trip.photo,
+                width: double.infinity,
+                height: 200,
+                fit: BoxFit.cover,
+              ),
               Text(
                 'Trip to ${trip.city}',
                 style: GoogleFonts.raleway(
@@ -150,7 +156,7 @@ class ViewPublicTripScreen extends StatelessWidget {
                           //context.pop();
                         },
                       )
-                    : Text("EVENTUAL BUTON DE DAT JOIN REQUESt LA TRIP"),
+                    : Text(""), //eventual buton de dat join
               )
             ],
           ),

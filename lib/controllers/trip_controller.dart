@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unsplash_client/unsplash_client.dart';
 import 'package:wigo/models/Trip.dart';
 import 'package:wigo/providers/trip_provider.dart';
 import 'package:wigo/services/cloud_firebase_service.dart';
@@ -10,10 +11,22 @@ class TripController {
 
   TripController();
 
-  void addNewTripToDatabase(Trip trip) {
+  void addNewTripToDatabase(Trip trip) async {
     // Save the new trip using the CloudFirebaseService
     //_firebaseService.saveTrip(trip);
+    final client = UnsplashClient(
+      settings: ClientSettings(
+          credentials: AppCredentials(
+        accessKey: 'h88Aszflj24Eqpr8XbbyO26YARfwjdRM_M7ddp2ZxLU',
+        secretKey: 'AXcSDDax9bOuz_P08NF2c9ZDchVAKHH9ZDlLbYA8fqA',
+      )),
+    );
+    var photos =
+        await client.photos.random(query: trip.city, count: 1).goAndGet();
+
+    trip.photo = photos[0].urls.regular.toString();
     _firebaseService.addDocument('trips', trip.toJSON());
+    client.close();
   }
 
   Future<Trip> getTripByInviteCode(int inviteCode, String email) {
