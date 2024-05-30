@@ -23,6 +23,7 @@ class _ItineraryBoxState extends State<ItineraryBox> {
 
     if (days == 0) {
       return Container(
+        height: 800,
         decoration: BoxDecoration(
           color: Color(0xFF559DC7),
           borderRadius: BorderRadius.circular(15.0),
